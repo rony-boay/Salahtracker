@@ -36,6 +36,7 @@ class SalahTrackerScreen extends StatelessWidget {
         preferredSize:
             Size.fromHeight(140.0), // Dynamically adjust the AppBar height
         child: AppBar(
+          foregroundColor: Colors.white,
           backgroundColor: Colors.teal,
           flexibleSpace: LayoutBuilder(
             builder: (BuildContext context, BoxConstraints constraints) {
@@ -48,11 +49,12 @@ class SalahTrackerScreen extends StatelessWidget {
                   children: [
                     // Adjust position based on the height
                     SizedBox(
-                        height: availableHeight *
-                            0.2), // Dynamically adjust padding
+                      height: availableHeight * 0.2,
+                    ), // Dynamically adjust padding
                     Text(
                       'Salah Tracker',
                       style: TextStyle(
+                        color: Colors.white,
                         fontSize: 18,
                       ),
                     ),
@@ -61,6 +63,7 @@ class SalahTrackerScreen extends StatelessWidget {
                       'بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ',
                       style: TextStyle(
                         fontSize: 14,
+                        color: Colors.white,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -75,7 +78,9 @@ class SalahTrackerScreen extends StatelessWidget {
               child: Center(
                 child: Text(
                   currentDate,
-                  style: TextStyle(fontSize: 14),
+                  style: TextStyle(
+                    fontSize: 14,
+                  ),
                 ),
               ),
             ),
