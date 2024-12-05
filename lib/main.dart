@@ -32,51 +32,87 @@ class SalahTrackerScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-           
-            Text(
-              'Salah Tracker',
-              style: TextStyle(fontSize: 18),
-            ),
-            // Current Date
-            Text(
-              currentDate,
-              style: TextStyle(fontSize: 14),
-            ),
-          ],
-        ),
-        backgroundColor: Colors.teal,
-      ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.teal,
-              ),
-              child: Text(
-                'Menu',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
+      appBar: PreferredSize(
+        preferredSize:
+            Size.fromHeight(140.0), // Dynamically adjust the AppBar height
+        child: AppBar(
+          backgroundColor: Colors.teal,
+          flexibleSpace: LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints constraints) {
+              // Get the available height dynamically
+              double availableHeight = constraints.maxHeight;
+
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    // Adjust position based on the height
+                    SizedBox(
+                        height: availableHeight *
+                            0.2), // Dynamically adjust padding
+                    Text(
+                      'Salah Tracker',
+                      style: TextStyle(
+                        fontSize: 18,
+                      ),
+                    ),
+                    SizedBox(height: 8), // Fixed space between texts
+                    Text(
+                      'بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 16.0),
+              child: Center(
+                child: Text(
+                  currentDate,
+                  style: TextStyle(fontSize: 14),
                 ),
               ),
             ),
-            ListTile(
-              leading: Icon(Icons.home),
-              title: Text('Home'),
-              onTap: () {},
-            ),
-            ListTile(
-              leading: Icon(Icons.settings),
-              title: Text('Settings'),
-              onTap: () {},
-            ),
           ],
+        ),
+      ),
+      drawer: Drawer(
+        child: Container(
+          color: Colors.teal[50], // Background color for the drawer
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: <Widget>[
+              DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Colors.teal,
+                ),
+                child: Text(
+                  'Menu',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                  ),
+                ),
+              ),
+              ListTile(
+                leading: Icon(Icons.home),
+                title: Text('Home'),
+                onTap: () {},
+              ),
+              ListTile(
+                leading: Icon(Icons.settings),
+                title: Text('Settings'),
+                onTap: () {},
+              ),
+              // Additional menu items can be added here
+            ],
+          ),
         ),
       ),
       body: Padding(
