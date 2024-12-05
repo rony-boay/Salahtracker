@@ -36,16 +36,7 @@ class SalahTrackerScreen extends StatelessWidget {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            // Drawer Menu
-            // Builder(
-            //   builder: (context) => IconButton(
-            //     icon: Icon(Icons.menu),
-            //     onPressed: () {
-            //       Scaffold.of(context).openDrawer();
-            //     },
-            //   ),
-            // ),
-            // // Salah Tracker Text
+           
             Text(
               'Salah Tracker',
               style: TextStyle(fontSize: 18),
