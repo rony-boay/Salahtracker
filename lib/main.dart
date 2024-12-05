@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:salahtracker/screens/PrayerTiming.dart';
 
 void main() {
   runApp(MyApp());
@@ -27,14 +28,14 @@ class _SalahTrackerScreenState extends State<SalahTrackerScreen> {
   String location = "Loading location...";
 
   final List<Map<String, dynamic>> cardsData = [
-    {'name': 'Fajr', 'icon': Icons.wb_sunny},
-    {'name': 'Dhuhr', 'icon': Icons.wb_cloudy},
-    {'name': 'Asr', 'icon': Icons.wb_shade},
-    {'name': 'Maghrib', 'icon': Icons.nightlight_round},
-    {'name': 'Isha', 'icon': Icons.star},
-    {'name': 'Tahajjud', 'icon': Icons.brightness_2},
-    {'name': 'Qiyam', 'icon': Icons.access_alarm},
-    {'name': 'Witr', 'icon': Icons.light_mode},
+    {'name': 'Prayer Timing', 'icon': Icons.timelapse},
+    {'name': 'Learn Quran', 'icon': Icons.book},
+    {'name': '6 Kalma', 'icon': Icons.brightness_6},
+    {'name': 'Azkar', 'icon': Icons.nightlight_round},
+    {'name': 'Allah 99 Names', 'icon': Icons.star},
+    {'name': 'Tasbeeh Counter', 'icon': Icons.speed},
+    {'name': 'Qibla Finder', 'icon': Icons.compare_arrows_sharp},
+    {'name': 'Settings', 'icon': Icons.settings},
   ];
 
   @override
@@ -47,7 +48,6 @@ class _SalahTrackerScreenState extends State<SalahTrackerScreen> {
     bool serviceEnabled;
     LocationPermission permission;
 
-    // Check if location services are enabled
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
       setState(() {
@@ -56,7 +56,6 @@ class _SalahTrackerScreenState extends State<SalahTrackerScreen> {
       return;
     }
 
-    // Check for location permissions
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
@@ -75,11 +74,9 @@ class _SalahTrackerScreenState extends State<SalahTrackerScreen> {
       return;
     }
 
-    // Get the user's current position
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
 
-    // Get city and country from coordinates
     try {
       List<Placemark> placemarks =
           await placemarkFromCoordinates(position.latitude, position.longitude);
@@ -99,24 +96,21 @@ class _SalahTrackerScreenState extends State<SalahTrackerScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize:
-            Size.fromHeight(140.0), // Dynamically adjust the AppBar height
+        preferredSize: Size.fromHeight(140.0),
         child: AppBar(
           foregroundColor: Colors.white,
           backgroundColor: Colors.teal,
           flexibleSpace: LayoutBuilder(
             builder: (BuildContext context, BoxConstraints constraints) {
-              // Get the available height dynamically
               double availableHeight = constraints.maxHeight;
 
               return Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // Adjust position based on the height
                     SizedBox(
                       height: availableHeight * 0.2,
-                    ), // Dynamically adjust padding
+                    ),
                     Text(
                       'Salah Tracker',
                       style: TextStyle(
@@ -124,7 +118,7 @@ class _SalahTrackerScreenState extends State<SalahTrackerScreen> {
                         fontSize: 18,
                       ),
                     ),
-                    SizedBox(height: 8), // Fixed space between texts
+                    SizedBox(height: 8),
                     Text(
                       'بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ',
                       style: TextStyle(
@@ -167,7 +161,7 @@ class _SalahTrackerScreenState extends State<SalahTrackerScreen> {
       ),
       drawer: Drawer(
         child: Container(
-          color: Colors.teal[50], // Background color for the drawer
+          color: Colors.teal[50],
           child: ListView(
             padding: EdgeInsets.zero,
             children: <Widget>[
@@ -193,7 +187,6 @@ class _SalahTrackerScreenState extends State<SalahTrackerScreen> {
                 title: Text('Settings'),
                 onTap: () {},
               ),
-              // Additional menu items can be added here
             ],
           ),
         ),
@@ -213,23 +206,35 @@ class _SalahTrackerScreenState extends State<SalahTrackerScreen> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    cardsData[index]['icon'],
-                    size: 40,
-                    color: Colors.teal,
-                  ),
-                  SizedBox(height: 8),
-                  Text(
-                    cardsData[index]['name'],
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+              child: InkWell(
+                onTap: () {
+                  if (cardsData[index]['name'] == 'Prayer Timing') {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PrayerTimingScreen(location: location),
+                      ),
+                    );
+                  }
+                },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      cardsData[index]['icon'],
+                      size: 40,
+                      color: Colors.teal,
                     ),
-                  ),
-                ],
+                    SizedBox(height: 8),
+                    Text(
+                      cardsData[index]['name'],
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             );
           },
