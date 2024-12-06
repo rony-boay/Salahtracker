@@ -2,23 +2,54 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:salahtracker/screens/AllahNamesScreen.dart';
+import 'package:salahtracker/screens/AzkarCategoryScreen.dart';
 import 'package:salahtracker/screens/PrayerTiming.dart';
+import 'package:salahtracker/screens/QiblaScreen.dart';
+import 'package:salahtracker/screens/QuranScreen.dart';
+import 'package:salahtracker/screens/SettingsScreen.dart';
+import 'package:salahtracker/screens/SixKalmaScreen.dart';
+import 'package:salahtracker/screens/TasbeehCounterScreen.dart';
 
 void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  bool isDarkTheme = false;
+
+  void toggleTheme() {
+    setState(() {
+      isDarkTheme = !isDarkTheme;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: SalahTrackerScreen(),
+      theme: ThemeData(
+        brightness: isDarkTheme ? Brightness.dark : Brightness.light,
+        primarySwatch: Colors.teal,
+      ),
+      home: SalahTrackerScreen(
+          toggleTheme: toggleTheme, isDarkTheme: isDarkTheme),
     );
   }
 }
 
 class SalahTrackerScreen extends StatefulWidget {
+  final Function toggleTheme;
+  final bool isDarkTheme;
+
+  const SalahTrackerScreen(
+      {required this.toggleTheme, required this.isDarkTheme});
+
   @override
   _SalahTrackerScreenState createState() => _SalahTrackerScreenState();
 }
@@ -96,7 +127,7 @@ class _SalahTrackerScreenState extends State<SalahTrackerScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(140.0),
+        preferredSize: Size.fromHeight(200.0),
         child: AppBar(
           foregroundColor: Colors.white,
           backgroundColor: Colors.teal,
@@ -115,14 +146,14 @@ class _SalahTrackerScreenState extends State<SalahTrackerScreen> {
                       'Salah Tracker',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 18,
+                        fontSize: 22,
                       ),
                     ),
                     SizedBox(height: 8),
                     Text(
                       'بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ',
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: 22,
                         color: Colors.white,
                         fontWeight: FontWeight.w500,
                       ),
@@ -208,11 +239,66 @@ class _SalahTrackerScreenState extends State<SalahTrackerScreen> {
               ),
               child: InkWell(
                 onTap: () {
-                  if (cardsData[index]['name'] == 'Prayer Timing') {
+                  if (cardsData[index]['name'] == 'Settings') {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => PrayerTimingScreen(location: location),
+                        builder: (context) => SettingsScreen(
+                          toggleTheme: widget.toggleTheme,
+                          isDarkTheme: widget.isDarkTheme,
+                        ),
+                      ),
+                    );
+                  } else if (cardsData[index]['name'] == 'Learn Quran') {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => QuranScreen(
+                          location: location,
+                        ),
+                      ),
+                    );
+                  } else if (cardsData[index]['name'] == 'Prayer Timing') {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            PrayerTimingScreen(location: location),
+                      ),
+                    );
+                  } else if (cardsData[index]['name'] == '6 Kalma') {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SixKalmaScreen(),
+                      ),
+                    );
+                  } else if (cardsData[index]['name'] == 'Azkar') {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AzkarCategoryScreen(),
+                      ),
+                    );
+                  } else if (cardsData[index]['name'] == 'Allah 99 Names') {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AllahNamesScreen(),
+                      ),
+                    );
+                  } else if (cardsData[index]['name'] == 'Tasbeeh Counter') {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => TasbeehCounterScreen(),
+                      ),
+                    );
+                  } else if (cardsData[index]['name'] == 'Qibla Finder') {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => QiblaScreen(),
                       ),
                     );
                   }
